@@ -96,7 +96,7 @@ import {ref} from 'vue';
 import App from "@/Layouts/AppLayout";
 import Specs from "@/Components/Specs";
 import {useForm} from '@inertiajs/inertia-vue3';
-import CommentBox from "@/Pages/Shop/CommentBox";
+import CommentBox from "@/Components/CommentBox";
 
 export default {
     name: "Detail",
@@ -133,7 +133,6 @@ export default {
     },
     mounted() {
         let colors = this.$page.props.smartphone.misc_colors.split(',');
-        let result = [];
 
         colors.forEach((e, i) => {
             e = e.toLowerCase()
@@ -152,7 +151,7 @@ export default {
                         .then((res) => {
                             res.data.colors[0].hex ? this.colors[i].push(res.data.colors[0].hex) : '#000';
 
-                        }).catch((e) => e = result)
+                        }).catch((e) => console.error(e))
                 });
                 this.colors.push(split);
                 return;
@@ -161,7 +160,7 @@ export default {
             axios.get(`https://api.color.pizza/v1/names/${e}`)
                 .then((res) => {
                     res.data.colors[0].hex ? this.colors[i] = res.data.colors[0].hex : '#000';
-                }).catch((e) => e = result.data)
+                }).catch((e) => console.error(e))
         })
     },
     methods: {
@@ -189,8 +188,8 @@ export default {
                 });
         },
         ratingClick() {
-            this.$page.props.isAuth !== true ? this.emitter.emit('g:requiresLogin', true) : form.stars = rating;
-            form.post(route('smartphone.rating.update', this.$page.props.id));
+            this.$page.props.isAuth !== true ? this.emitter.emit('g:requiresLogin', true) : this.form.stars = rating;
+            this.form.post(route('smartphone.rating.update', this.$page.props.id));
         }
     },
     layout: [App]

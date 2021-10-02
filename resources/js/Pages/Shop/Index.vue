@@ -14,15 +14,14 @@
             :max-pages="6"
             boundary-numbers
             direction-links
-            outline
-        />
+            outline />
     </div>
 </template>
 
 <script>
 import {Head, Link} from '@inertiajs/inertia-vue3';
 import App from "@/Layouts/AppLayout";
-import ProductCard from "@/Components/ProductCardNew";
+import ProductCard from "@/Components/ProductCard";
 import Featured from "@/Components/Featured";
 
 export default {
@@ -47,7 +46,7 @@ export default {
     watch: {
         currentPage(newPage, oldPage) {
             if (newPage !== oldPage) {
-                this.$inertia.visit(this.route('phones', {page: newPage}, {
+                this.$inertia.visit(this.route('shop.index', {page: newPage}, {
                     preserveState: true,
                 }));
             }

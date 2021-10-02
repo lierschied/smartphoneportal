@@ -40,7 +40,7 @@
         <q-separator/>
 
         <q-card-actions>
-            <Link :href="route('phone.show', smartphone.id)">
+            <Link :href="this.route('shop.detail', smartphone.id)">
                 <q-btn class="y-ty-hover-up" color="primary" label="Details" outline/>
             </Link>
         </q-card-actions>

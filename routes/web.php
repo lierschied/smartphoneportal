@@ -18,8 +18,10 @@ use Inertia\Inertia;
 */
 Route::get('/', [SmartphoneController::class, 'index'])->name('index');
 
-Route::get('/shop', [SmartphoneController::class, 'index'])->name('phones');
-Route::get('/shop/{smartphone}', [SmartphoneController::class, 'show'])->name('phone.show');
+Route::name('shop.')->group(function () {
+    Route::get('/shop', [SmartphoneController::class, 'index'])->name('index');
+    Route::get('/shop/{smartphone}', [SmartphoneController::class, 'show'])->name('detail');
+});
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

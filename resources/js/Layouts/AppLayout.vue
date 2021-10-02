@@ -4,7 +4,7 @@
             <q-toolbar class="bg-accent">
                 <q-btn dense flat icon="menu" round @click="toggleLeftDrawer"/>
                 <q-toolbar-title>
-                    <Link :href="this.route('phones')" class="">Smartphoneportal</Link>
+                    <Link :href="this.route('shop.index')" class="">Smartphoneportal</Link>
                 </q-toolbar-title>
 
                 <!-- logged out -->
@@ -47,31 +47,31 @@
                   side="left">
             <!-- drawer content -->
             <q-list padding>
-                <Link :href="this.route('phones')">
+                <Link :href="this.route('shop.index')">
                     <q-item v-ripple
-                            :active="this.route().current('phones')"
-                            :class="this.route().current('phones') ? 'y-active-primary' : ''"
+                            :active="this.route().current('shop.index')"
+                            :class="this.route().current('shop.index') ? 'y-active-primary' : ''"
                             class="y-ty-hover-up y-hover-white" clickable>
                         <q-item-section avatar>
-                            <q-icon :class="this.route().current('phones') ? 'y-active-text-primary' : ''" name="home"/>
+                            <q-icon :class="this.route().current('shop.index') ? 'y-active-text-primary' : ''" name="home"/>
                         </q-item-section>
 
-                        <q-item-section :class="this.route().current('phones') ? 'y-active-text-primary' : ''">
+                        <q-item-section :class="this.route().current('shop.index') ? 'y-active-text-primary' : ''">
                             Home
                         </q-item-section>
                     </q-item>
                 </Link>
-                <Link :href="this.route('phones')">
+                <Link :href="this.route('shop.index')">
                     <q-item v-ripple
-                            :active="this.route().current('phone.show')"
-                            :class="this.route().current('phone.show') ? 'y-active-primary' : ''"
+                            :active="this.route().current('shop.detail')"
+                            :class="this.route().current('shop.show') ? 'y-active-primary' : ''"
                             class="y-ty-hover-up y-hover-white" clickable>
                         <q-item-section avatar>
-                            <q-icon :class="this.route().current('phone.show') ? 'y-active-text-primary' : ''"
+                            <q-icon :class="this.route().current('shop.detail') ? 'y-active-text-primary' : ''"
                                     name="settings"/>
                         </q-item-section>
 
-                        <q-item-section :class="this.route().current('phone.show') ? 'y-active-text-primary' : ''">
+                        <q-item-section :class="this.route().current('shop.detail') ? 'y-active-text-primary' : ''">
                             Settings
                         </q-item-section>
                     </q-item>
