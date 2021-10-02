@@ -1,5 +1,5 @@
 <template>
-    <Featured />
+    <Featured/>
     <div class="row justify-center">
         <q-intersection v-for="smartphone in $page.props.smartphones.data"
                         :key="smartphone.id" style="width: 400px; height: 650px;">
@@ -7,11 +7,17 @@
                          class="q-ma-md"/>
         </q-intersection>
     </div>
+    <div class="q-pa-lg flex flex-center">
+        <q-pagination
+            v-model="currentPage"
+            :max="this.$page.props.smartphones.last_page"
+            :max-pages="6"
+            boundary-numbers
+            direction-links
+            outline
+        />
+    </div>
 </template>
-
-<style scoped>
-
-</style>
 
 <script>
 import {Head, Link} from '@inertiajs/inertia-vue3';
@@ -27,12 +33,26 @@ export default {
         Head,
         Link,
     },
-    layout: [App],
     props: {
         canLogin: Boolean,
         canRegister: Boolean,
         laravelVersion: String,
         phpVersion: String,
-    }
+    },
+    data() {
+        return {
+            currentPage: this.$page.props.smartphones.current_page,
+        }
+    },
+    watch: {
+        currentPage(newPage, oldPage) {
+            if (newPage !== oldPage) {
+                this.$inertia.visit(this.route('phones', {page: newPage}, {
+                    preserveState: true,
+                }));
+            }
+        }
+    },
+    layout: [App]
 }
 </script>
