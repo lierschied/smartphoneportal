@@ -1,10 +1,12 @@
 <template>
     <q-card class="y-scale-hover-2 y-hover-dark-white shadow-6 bg-accent text-white" style="border-radius: 12px;">
 
-        <q-img :ratio="1" style="border-radius: 12px;" src="https://images.unsplash.com/photo-1611740677496-3e0ef378e189?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1040&q=80" />
+        <q-img :ratio="1" src="https://images.unsplash.com/photo-1611740677496-3e0ef378e189?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1040&q=80"
+               style="border-radius: 12px;"/>
         <q-card-section style="border-radius: 12px;">
-            <q-btn @click="startLoading" :loading="loading" size="sm" color="primary" class="y-hover-primary y-ty-hover-up" style="position: absolute; top: -35px; border-radius: 12px;">
-                <q-icon :name="icon" class="material-icons-outlined" />
+            <q-btn :loading="loading" class="y-hover-primary y-ty-hover-up" color="primary" size="sm"
+                   style="position: absolute; top: -35px; border-radius: 12px;" @click="startLoading">
+                <q-icon :name="icon" class="material-icons-outlined"/>
             </q-btn>
             <div class="row no-wrap items-center">
                 <div class="col text-h6 ellipsis">
@@ -13,12 +15,13 @@
                 </div>
             </div>
 
-            <q-rating :model-value="getRating"
-                      icon-selected="star"
-                      icon-half="star_half"
+            <q-rating :max="5"
+                      :model-value="getRating"
                       color="warning"
-                      :max="5"
-                      size="32px" />
+                      icon-half="star_half"
+                      icon-selected="star"
+                      readonly
+                      size="32px"/>
             <span class="text-caption text-grey-1 q-ml-sm">{{ getRating }} ({{ smartphone.ratings_count }})</span>
         </q-card-section>
 
@@ -38,7 +41,7 @@
 
         <q-card-actions>
             <Link :href="route('phone.show', smartphone.id)">
-                <q-btn color="primary" class="y-ty-hover-up" outline label="Details" />
+                <q-btn class="y-ty-hover-up" color="primary" label="Details" outline/>
             </Link>
         </q-card-actions>
     </q-card>
@@ -49,14 +52,14 @@ import {Link} from '@inertiajs/inertia-vue3';
 
 export default {
     name: "ProductCardNew",
-    components: { Link, },
+    components: {Link,},
     props: {
         smartphone: {
             default: null,
             type: Object
         },
     },
-    data () {
+    data() {
         return {
             rating: this.smartphone.ratings_avg_stars || 0,
             loading: false,

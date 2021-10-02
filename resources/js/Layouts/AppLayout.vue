@@ -4,39 +4,38 @@
             <q-toolbar class="bg-accent">
                 <q-btn dense flat icon="menu" round @click="toggleLeftDrawer"/>
                 <q-toolbar-title>
-                    <Link :href="route('phones')" class="">Smartphoneportal</Link>
+                    <Link :href="this.route('phones')" class="">Smartphoneportal</Link>
                 </q-toolbar-title>
 
                 <!-- logged out -->
-                <template v-if="$page.props.isAuth !== true">
+                <template v-if="this.$page.props.isAuth !== true">
                     <q-btn class="q-mr-xs" dense flat icon="login" round @click="authModal = true"/>
-                    <AuthModal v-model:isOpen="authModal" @update:isOpen="authModal"/>
                 </template>
                 <!-- logged in -->
                 <template v-else>
                     <q-btn :class="this.userShoppingCart.length > 0 ? 'y-active-text-primary' : ''" flat>
                         <q-icon class="material-icons-outlined" name="shopping_cart"/>
-                        <q-badge v-if="this.userShoppingCart.length > 0" :label="this.userShoppingCart.length" color="primary" floating
+                        <q-badge v-if="this.userShoppingCart.length > 0" :label="this.userShoppingCart.length"
+                                 color="primary" floating
                                  rounded/>
                     </q-btn>
-                    <q-btn-dropdown :icon="`img:https://avatars.dicebear.com/api/bottts/${this.$page.props.auth.user.id}.svg`" flat
-                                    rounded>
+                    <q-btn-dropdown
+                        :icon="`img:https://avatars.dicebear.com/api/bottts/${this.$page.props.auth.user.id}.svg`" flat
+                        rounded>
                         <q-list class="bg-accent text-white">
-                            <q-item v-close-popup clickable class="y-text-hover-dark-white">
+                            <q-item v-close-popup class="y-text-hover-dark-white" clickable>
                                 <q-item-section>
                                     <q-item-label>Settings</q-item-label>
                                 </q-item-section>
                             </q-item>
 
-                            <q-separator />
+                            <q-separator/>
 
-                            <Link :href="route('logout')" method="post" @click="logout">
-                                <q-item v-close-popup clickable class="y-text-hover-dark-white">
-                                    <q-item-section>
-                                        <q-item-label>Logout</q-item-label>
-                                    </q-item-section>
-                                </q-item>
-                            </Link>
+                            <q-item v-close-popup class="y-text-hover-dark-white" clickable @click="logout()">
+                                <q-item-section>
+                                    <q-item-label>Logout</q-item-label>
+                                </q-item-section>
+                            </q-item>
                         </q-list>
                     </q-btn-dropdown>
                 </template>
@@ -48,31 +47,34 @@
                   side="left">
             <!-- drawer content -->
             <q-list padding>
-                <Link :href="route('phones')">
+                <Link :href="this.route('phones')">
                     <q-item v-ripple
-                            :active="route().current('phones')" :class="route().current('phones') ? 'y-active-primary' : ''"
+                            :active="this.route().current('phones')"
+                            :class="this.route().current('phones') ? 'y-active-primary' : ''"
                             class="y-ty-hover-up y-hover-white" clickable>
                         <q-item-section avatar>
-                            <q-icon :class="route().current('phones') ? 'y-active-text-primary' : ''" name="home"/>
+                            <q-icon :class="this.route().current('phones') ? 'y-active-text-primary' : ''" name="home"/>
                         </q-item-section>
 
-                        <q-item-section :class="route().current('phones') ? 'y-active-text-primary' : ''">
+                        <q-item-section :class="this.route().current('phones') ? 'y-active-text-primary' : ''">
                             Home
                         </q-item-section>
                     </q-item>
                 </Link>
-                <Link :href="route('phones')">
-                <q-item v-ripple
-                        :active="route().current('phone.show')" :class="route().current('phone.show') ? 'y-active-primary' : ''"
-                        class="y-ty-hover-up y-hover-white" clickable>
-                    <q-item-section avatar>
-                        <q-icon :class="route().current('phone.show') ? 'y-active-text-primary' : ''" name="settings"/>
-                    </q-item-section>
+                <Link :href="this.route('phones')">
+                    <q-item v-ripple
+                            :active="this.route().current('phone.show')"
+                            :class="this.route().current('phone.show') ? 'y-active-primary' : ''"
+                            class="y-ty-hover-up y-hover-white" clickable>
+                        <q-item-section avatar>
+                            <q-icon :class="this.route().current('phone.show') ? 'y-active-text-primary' : ''"
+                                    name="settings"/>
+                        </q-item-section>
 
-                    <q-item-section :class="route().current('phone.show') ? 'y-active-text-primary' : ''">
-                        Settings
-                    </q-item-section>
-                </q-item>
+                        <q-item-section :class="this.route().current('phone.show') ? 'y-active-text-primary' : ''">
+                            Settings
+                        </q-item-section>
+                    </q-item>
                 </Link>
                 <div class="absolute" style="bottom: 65px; right: -17px">
                     <q-btn
@@ -106,13 +108,15 @@
 
     </q-layout>
 
-    <q-dialog v-model="showLoggedOut" position="top" transition-hide="scale"
-              transition-show="scale" class="q-pt-xl">
+    <AuthModal v-model:isOpen="authModal"/>
+
+    <q-dialog v-model="showToast" class="q-pt-xl" position="top"
+              transition-hide="scale" transition-show="scale">
         <q-card class="bg-positive text-white" style="width: 300px">
 
             <q-card-section class="row items-center justify-center">
                 <q-icon class="q-mr-sm" name="check" size="24px"/>
-                <span>Logged out!</span>
+                <span>{{ this.toastMsg }}</span>
                 <q-space/>
                 <q-btn v-close-popup dense flat icon="close" round/>
             </q-card-section>
@@ -151,33 +155,26 @@ export default {
     name: "App",
     components: {AuthModal, Link},
     props: {
-        authModal: {type: Boolean, default: false},
         requiresLogin: {type: Boolean, default: false}
-    },
-    data() {
-        return {
-            openRequiresLogin: this.requiresLogin,
-            showLoggedOut: false,
-            userShoppingCart: []
-        }
-    },
-    methods: {
-        logout() {
-            this.showLoggedOut = true;
-            setTimeout(() => {
-                this.showLoggedOut = false
-            }, 2000)
-        },
     },
     setup() {
         const leftDrawerOpen = ref(false);
-
+        const authModal = ref(false)
         return {
             leftDrawerOpen,
+            authModal,
             miniState: ref(true),
             toggleLeftDrawer() {
                 leftDrawerOpen.value = !leftDrawerOpen.value;
             },
+        }
+    },
+    data() {
+        return {
+            openRequiresLogin: this.requiresLogin,
+            showToast: false,
+            toastMsg: '',
+            userShoppingCart: []
         }
     },
     mounted() {
@@ -188,10 +185,22 @@ export default {
         this.emitter.on('g:addItemToCart', item => {
             this.userShoppingCart.push(item);
         });
+
+        this.emitter.on('g:showToast', msg => {
+            this.toastMsg = msg;
+            this.showToast = true;
+            setTimeout(() => {
+                this.showToast = false
+            }, 2000)
+        })
+    },
+    methods: {
+        logout() {
+            this.$inertia.visit(this.route('logout'), {
+                method: 'post',
+                onSuccess: () => this.emitter.emit('g:showToast', 'Logged out!')
+            });
+        }
     }
 }
 </script>
-
-<style scoped>
-
-</style>
