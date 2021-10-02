@@ -116,9 +116,9 @@ A brief overview of the most relevant files and folders.
 
 ```
 |-- smartphoneportal_jannis
-        |-- app
-        |       |-- Http
-        |       |       |-- Models
+    |-- app
+    |   |-- Http
+    |   |   |-- Models
 ```
 
 By default, all Laravel Models inherit the database columns as a public attribute. To now set the intended relationships
@@ -232,12 +232,12 @@ other seeder classes.
 ```php
 public function run(): void
 {
-        User::factory()->createOne(['name' => 'test', 'email' => 'test@mail.de']);
-        
-        $this->call([
-            SmartphoneSeeder::class,
-            UserSeeder::class
-        ]);
+    User::factory()->createOne(['name' => 'test', 'email' => 'test@mail.de']);
+    
+    $this->call([
+        SmartphoneSeeder::class,
+        UserSeeder::class
+]);
 }
 ```
 
