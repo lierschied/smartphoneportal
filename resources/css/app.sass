@@ -1,0 +1,130 @@
+@use "sass:math"
+@use "sass:color"
+
+@import 'quasar/index.sass'
+
+$orange: #ff5000
+$blue: #195dff
+$green: #44c93a
+$red: #fe4657
+$gray: #1e2023
+$white: #ffffff
+$darkWhite: #f4f7f8
+$dark: #1e2023
+$darker: #18191c
+
+$colors: ("primary": $orange, "blue": $blue, "positive": $green, "negative": $red, "gray": $gray, "white": $white, "dark-white": $darkWhite, "dark": $dark, "darker": $darker)
+$directions: ("t": top, "b": bottom, "r": right, "l": left)
+
+a
+    color: inherit
+    text-decoration: inherit
+
+@each $color, $value in $colors
+    .shadow-#{$color}
+        box-shadow: 0 10px 35px -8px $value
+
+@for $i from 1 through 7
+    @each $color, $value in $colors
+        .shadow-#{$color}-#{$i}
+            box-shadow: 0 0 40px - $i*5 2px scale-color($value, $alpha: -20%)
+
+.glass
+    background: rgba(255, 255, 255, 0.05)
+    border-radius: 16px
+    backdrop-filter: blur(4px)
+    -webkit-backdrop-filter: blur(4px)
+    border: 1px solid rgba(255, 255, 255, 0.3)
+
+@for $i from 1 through 10
+    .glass-#{$i}
+        background: rgba(255, 255, 255, 0.1)
+        border-radius: 16px
+        backdrop-filter: blur(2px*$i)
+        -webkit-backdrop-filter: blur(2px*$i)
+        border: 1px solid rgba(255, 255, 255, 0.3)
+
+@for $i from 1 through 5
+    .y-scale-hover-#{$i}
+        transition: all 0.2s ease-in-out
+    .y-scale-hover-#{$i}:hover
+        transform: scale(1.0 + math.div($i, 100))
+        transition: all 0.2s ease-in-out
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-b
+        background: linear-gradient(0deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-bl
+        background: linear-gradient(45deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-l
+        background: linear-gradient(90deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-tl
+        background: linear-gradient(135deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-t
+        background: linear-gradient(180deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-tr
+        background: linear-gradient(225deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-r
+        background: linear-gradient(270deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    .bg-gradient-#{$color}-br
+        background: linear-gradient(315deg, color.adjust($value, $red: 10, $blue: 10, $green: 10), color.adjust($value, $red: -10, $blue: -10, $green: -10))
+
+@each $color, $value in $colors
+    @each $direction, $name in $directions
+        .border-#{$direction}-#{$color}
+            border-#{$name}: 1px solid $value
+
+@each $color, $value in $colors
+    .y-hover-#{$color}
+        transition: all 0.2s ease-in-out
+
+    .y-hover-#{$color}:hover
+        transition: all 0.2s ease-in-out
+        box-shadow: 0 10px 20px -10px rgba($value, 1)
+
+@each $color, $value in $colors
+    .y-text-hover-#{$color}
+        transition: all 0.2s ease-in-out
+
+    .y-text-hover-#{$color}:hover
+        transition: all 0.2s ease-in-out
+        text-shadow: 0 10px 20px rgba($value, 1)
+
+@each $color, $value in $colors
+    .y-active-#{$color}
+        transition: all 0.2s ease-in-out
+        box-shadow: 0 10px 20px -10px rgba($value, 1)
+
+@each $color, $value in $colors
+    .y-active-text-#{$color}
+        transition: all 0.2s ease-in-out
+        text-shadow: 0 10px 20px rgba($value, 1)
+
+.y-ty-hover-up:hover
+        transform: translateY(-3px)
+
+.y-trigger, .y-specs-shadow, .y-specs-text-shadow
+    transition: all .4s ease-in-out
+
+.y-specs-text-shadow
+    text-shadow: 0 10px 20px rgba(255,255,255, 1)
+
+.y-trigger:hover .y-specs-text-shadow
+    text-shadow: -10px 10px 26px rgba(255,80,0, 1), 0 10px 26px rgba(255,80,0, 1), 10px 10px 26px rgba(255,80,0, 1)
+
+.y-trigger:hover .y-specs-shadow
+    box-shadow: -2px 0 5px rgba(255,80,0, 1), 2px 0 5px rgba(255,80,0, 1)
