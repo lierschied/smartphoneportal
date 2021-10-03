@@ -82,7 +82,8 @@
     </div>
     <div v-if="showComments" class="full-width column wrap justify-start items-stretch content-center text-white">
         <q-intersection v-for="comment in this.$page.props.smartphone.comments" :key="comment.id"
-                        class="wrap-xs" style="height: 100px; min-width: 200px;" transition="scale">
+                        class="wrap-xs y-hover-dark-white" style="min-height: 100px; min-width: 200px;"
+                        transition="scale">
             <CommentBox :comment="comment"/>
         </q-intersection>
     </div>

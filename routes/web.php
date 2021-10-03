@@ -33,5 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/comment/{comment}/like', [CommentController::class, 'like'])
         ->name('comment.like');
+
+    Route::post('/comment/{comment}/create', [CommentController::class, 'create'])
+        ->name('comment.create');
 });
 require __DIR__.'/auth.php';

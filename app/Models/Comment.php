@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 use JetBrains\PhpStorm\ArrayShape;
+use JetBrains\PhpStorm\Pure;
 
 /**
  * App\Models\Comment
@@ -43,7 +44,7 @@ use JetBrains\PhpStorm\ArrayShape;
  * @property-read Collection|Like[] $likes
  * @property-read int|null $likes_count
  * @method static Builder|Comment whereSmartphoneId($value)
- * @property-read Model|\Eloquent $commentable
+ * @property-read Model|Eloquent $commentable
  * @property-read Collection|Comment[] $comments
  * @property-read int|null $comments_count
  * @property-read int $dislike_count
@@ -54,8 +55,14 @@ use JetBrains\PhpStorm\ArrayShape;
 class Comment extends Model
 {
     use HasFactory;
+
     protected $casts = [
         'created_at' => 'datetime:d.m Y',
+    ];
+
+    protected $fillable = [
+        'comment',
+        'user_id'
     ];
 
     /** Relationships */
@@ -102,7 +109,8 @@ class Comment extends Model
 
     }
 
-    public function getLikesDataAttribute()
+    #[Pure] #[ArrayShape(['likes' => "int", 'dislikes' => "int", 'avg' => "float|int"])]
+    public function getLikesDataAttribute(): array
     {
         $totalCount = $this->likes->count();
         $avg = $totalCount > 0 ? $this->like_count / $this->likes->count() : 0;

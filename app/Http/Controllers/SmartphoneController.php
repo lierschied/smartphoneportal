@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Smartphone;
 use Auth;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,7 +32,7 @@ class SmartphoneController extends Controller
                 ->orderBy('featured', 'DESC')
                 ->paginate(16);
         }
-
+        /* @var $smartphones LengthAwarePaginator|Smartphone */
         $smartphones->loadAvg('ratings', 'stars');
         $smartphones->loadCount('ratings');
 
@@ -45,7 +46,7 @@ class SmartphoneController extends Controller
     public function show(Smartphone $smartphone): Response
     {
 
-        $smartphone->comments->append('likes_data')->load('user');
+        $smartphone->comments->append('likes_data')->load(['user', 'comments', 'comments.user']);
 
         $smartphone->load(['brand', 'smartphonePrices', 'smartphonePrices.currency']);
 
