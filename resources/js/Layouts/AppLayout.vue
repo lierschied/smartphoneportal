@@ -97,6 +97,9 @@
             <q-page class="bg-dark" padding>
                 <slot></slot>
             </q-page>
+            <q-page-scroller :offset="[18, 18]" :scroll-offset="300" position="bottom-right">
+                <q-btn color="primary" fab icon="keyboard_arrow_up"/>
+            </q-page-scroller>
         </q-page-container>
 
         <q-footer class="text-black bg-accent" reveal>

@@ -86,9 +86,6 @@
             <CommentBox :comment="comment"/>
         </q-intersection>
     </div>
-    <q-page-scroller :offset="[18, 18]" :scroll-offset="300" position="bottom-right">
-        <q-btn color="primary" fab icon="keyboard_arrow_up"/>
-    </q-page-scroller>
 </template>
 
 <script>
