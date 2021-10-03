@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Auth;
+use Database\Factories\SmartphoneFactory;
+use Eloquent;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +33,7 @@ use Illuminate\Support\Carbon;
  * @property int $rating_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @method static \Database\Factories\SmartphoneFactory factory(...$parameters)
+ * @method static SmartphoneFactory factory(...$parameters)
  * @method static Builder|Smartphone newModelQuery()
  * @method static Builder|Smartphone newQuery()
  * @method static Builder|Smartphone query()
@@ -50,7 +53,7 @@ use Illuminate\Support\Carbon;
  * @method static Builder|Smartphone whereStorage($value)
  * @method static Builder|Smartphone whereUpdatedAt($value)
  * @method static Builder|Smartphone whereWeight($value)
- * @mixin \Eloquent
+ * @mixin Eloquent
  * @property int|null $brand_id
  * @property string|null $network_technology
  * @property string|null $launch_status
@@ -143,20 +146,30 @@ class Smartphone extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function ratings(): HasMany
-    {
-        return $this->hasMany(Rating::class);
-    }
-
     public function brand(): BelongsTo
     {
         return $this->belongsTo(Brand::class);
     }
 
-
-    /* Accessor */
     public function getRatingsAttribute()
     {
         return $this->ratings()->avg('stars');
+    }
+
+
+    /* Accessors */
+
+    public function ratings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function getHasUserRatingAttribute(): false|int
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+        $rating = $this->ratings()->where('user_id', Auth::id())->first();
+        return $rating->stars ?? false;
     }
 }

@@ -37,9 +37,12 @@
                           icon-selected="star"
                           size="24px"
                           @click="ratingClick"/>
-                <span class="text-caption q-ml-sm">{{ getRating }} ({{
-                        this.$page.props.smartphone.ratings_count
-                    }})</span>
+                <span class="text-caption q-ml-sm">
+                    {{ getRating }} ({{ this.$page.props.smartphone.ratings_count }})
+                </span>
+                <span v-if="this.$page.props.smartphone.has_user_rating !== false">
+                    Your rating: {{ this.$page.props.smartphone.has_user_rating }}
+                </span>
                 <p class="q-mt-lg">
                     {{ this.$page.props.smartphone.launch_status }}
                     <br/>
@@ -186,8 +189,14 @@ export default {
                 });
         },
         ratingClick() {
-            this.$page.props.isAuth !== true ? this.emitter.emit('g:requiresLogin', true) : this.form.stars = rating;
-            this.form.post(route('smartphone.rating.update', this.$page.props.id));
+            if (this.$page.props.isAuth !== true) return this.emitter.emit('g:requiresLogin', true);
+            this.form.stars = this.rating;
+            this.form.post(
+                this.route('smartphone.rating.update', this.$page.props.smartphone.id),
+                {
+                    preserveScroll: true,
+                }
+            );
         }
     },
     layout: [App]

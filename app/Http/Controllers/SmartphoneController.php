@@ -47,16 +47,17 @@ class SmartphoneController extends Controller
     {
 
         $smartphone->comments->append('likes_data')->load(['user', 'comments', 'comments.user']);
+        $smartphone->append('has_user_rating');
 
         $smartphone->load(['brand', 'smartphonePrices', 'smartphonePrices.currency']);
 
         $smartphone->loadCount('ratings');
+        $smartphone->loadAvg('ratings', 'stars');
 
         if (Auth::check()) {
             $smartphone->comments->append('has_liked');
         }
-
-        return Inertia::render('Shop/Detail', ['smartphone' => $smartphone->loadAvg('ratings', 'stars')]);
+        return Inertia::render('Shop/Detail', ['smartphone' => $smartphone]);
     }
 
     public function getFeatured(): array|Collection
