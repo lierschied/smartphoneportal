@@ -53,7 +53,8 @@
                             :class="this.route().current('shop.index') ? 'y-active-primary' : ''"
                             class="y-ty-hover-up y-hover-white" clickable>
                         <q-item-section avatar>
-                            <q-icon :class="this.route().current('shop.index') ? 'y-active-text-primary' : ''" name="home"/>
+                            <q-icon :class="this.route().current('shop.index') ? 'y-active-text-primary' : ''"
+                                    name="home"/>
                         </q-item-section>
 
                         <q-item-section :class="this.route().current('shop.index') ? 'y-active-text-primary' : ''">
@@ -125,10 +126,10 @@
     </q-dialog>
     <q-dialog v-if="!$page.props.isAuth" v-model="openRequiresLogin" persistent transition-hide="scale"
               transition-show="scale">
-        <q-card class="bg-negative text-white" style="width: 300px">
-            <q-card-section>
+        <q-card class="text-negative" style="width: 300px;border-left: 5px solid #fe4657;">
+            <q-card-section class="" style="">
                 <div class="text-h6">
-                    <q-icon class="" color="white" name="warning" size="48px"/>
+                    <q-icon class="" color="negative" name="warning" size="48px"/>
                 </div>
             </q-card-section>
 
@@ -136,11 +137,14 @@
                 This action requires to be logged in!
             </q-card-section>
 
-            <q-card-actions align="right" class=" text-teal">
+
+            <q-card-actions align="right" class="bg-white text-teal">
                 <q-btn v-close-popup color="dark" flat label="Cancel"
-                       @click="$emit('update:requiresLogin', false)"/>
+                       @click="requiresLogin = false"/>
                 <q-btn v-close-popup color="primary"
-                       label="Login" @click="$emit('update:requiresLogin', false); authModal = true"/>
+                       icon="login"
+                       push
+                       label="Login" @click="requiresLogin = false; authModal = true"/>
             </q-card-actions>
         </q-card>
     </q-dialog>
