@@ -1,7 +1,7 @@
 <template>
     <Featured/>
     <div class="row justify-center q-pt-xl">
-        <div class="col-4">
+        <div class="col-4 col-sm-6 col-xs-10">
             <q-input
                 v-model="searchTerm"
                 :loading="searchLoading"

@@ -62,21 +62,21 @@
                         </q-item-section>
                     </q-item>
                 </Link>
-                <Link :href="this.route('shop.index')">
+                <template v-if="this.route().current('shop.detail')">
                     <q-item v-ripple
                             :active="this.route().current('shop.detail')"
                             :class="this.route().current('shop.show') ? 'y-active-primary' : ''"
                             class="y-ty-hover-up y-hover-white" clickable>
                         <q-item-section avatar>
                             <q-icon :class="this.route().current('shop.detail') ? 'y-active-text-primary' : ''"
-                                    name="settings"/>
+                                    name="smartphone"/>
                         </q-item-section>
 
                         <q-item-section :class="this.route().current('shop.detail') ? 'y-active-text-primary' : ''">
-                            Settings
+                            {{ this.$page.props.smartphone.model }}
                         </q-item-section>
                     </q-item>
-                </Link>
+                </template>
                 <div class="absolute" style="bottom: 65px; right: -17px">
                     <q-btn
                         v-ripple
