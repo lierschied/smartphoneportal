@@ -92,8 +92,6 @@ A brief overview of the most relevant files and folders.
 
 [View online](https://drawsql.app/lierschied/diagrams/smartphoneportal)
 
-![smartphoneportal_erd](/Users/janniswichmann/Library/Mobile Documents/com~apple~CloudDocs/Berufsschule/WebDev/smartphoneportal_erd.png)
-
 ## Tables overview
 
 | Tablename         | Purpose                                                      | Notes                                              |
