@@ -20,8 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/smartphone/getFeatured', [SmartphoneController::class, 'getFeatured'])
-    ->name('api.smartphone.getFeatured');
 
+Route::name('api.smartphone.')->group(function() {
+    Route::get('/smartphone/getFeatured', [SmartphoneController::class, 'getFeatured'])
+        ->name('getFeatured');
+});
 Route::get('/comment/{comment}/likes', [LikeController::class, 'getLikesCount'])
     ->name('api.comment.like');

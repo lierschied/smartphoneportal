@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Smartphone;
 use Auth;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -11,15 +13,24 @@ class SmartphoneController extends Controller
 {
 
     /**
+     * @param Request $request
      * @return Response
      */
-    public function index(): Response
+    public function index(Request $request): Response
     {
-        $smartphones = Smartphone::where('launch_status', '!=', 'Discontinued')
-            ->where('launch_status', '!=', 'Cancelled')
-            ->with(['brand', 'smartphonePrices', 'smartphonePrices.currency'])
-            ->orderBy('featured', 'DESC')
-            ->paginate(16);
+        if ($request->has('search')) {
+            $searchTerm = $request->input('search');
+            $smartphones = Smartphone::where('model', 'like', "%$searchTerm%")
+                ->with(['brand', 'smartphonePrices', 'smartphonePrices.currency'])
+                ->orderBy('featured', 'DESC')
+                ->paginate(16);
+        } else {
+            $smartphones = Smartphone::where('launch_status', '!=', 'Discontinued')
+                ->where('launch_status', '!=', 'Cancelled')
+                ->with(['brand', 'smartphonePrices', 'smartphonePrices.currency'])
+                ->orderBy('featured', 'DESC')
+                ->paginate(16);
+        }
 
         $smartphones->loadAvg('ratings', 'stars');
         $smartphones->loadCount('ratings');
@@ -47,7 +58,7 @@ class SmartphoneController extends Controller
         return Inertia::render('Shop/Detail', ['smartphone' => $smartphone->loadAvg('ratings', 'stars')]);
     }
 
-    public function getFeatured()
+    public function getFeatured(): array|Collection
     {
         return Smartphone::where('featured', true)
             ->inRandomOrder()

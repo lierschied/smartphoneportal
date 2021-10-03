@@ -1,7 +1,22 @@
 <template>
     <Featured/>
+    <div class="row justify-center q-pt-xl">
+        <div class="col-4">
+            <q-input
+                v-model="searchTerm"
+                :loading="searchLoading"
+                bg-color="grey-9"
+                debounce="500"
+                input-class="text-white"
+                outlined
+                placeholder="Search"
+                @keyup="searchLoading = true"
+                @update:model-value="search"
+            />
+        </div>
+    </div>
     <div class="row justify-center">
-        <q-intersection v-for="smartphone in $page.props.smartphones.data"
+        <q-intersection v-for="smartphone in this.$page.props.smartphones.data"
                         :key="smartphone.id" style="width: 400px; height: 650px;">
             <ProductCard :smartphone="smartphone"
                          class="q-ma-md"/>
@@ -14,7 +29,7 @@
             :max-pages="6"
             boundary-numbers
             direction-links
-            outline />
+            outline/>
     </div>
 </template>
 
@@ -41,15 +56,36 @@ export default {
     data() {
         return {
             currentPage: this.$page.props.smartphones.current_page,
+            searchLoading: false,
+            searchTerm: ''
         }
     },
     watch: {
         currentPage(newPage, oldPage) {
             if (newPage !== oldPage) {
-                this.$inertia.visit(this.route('shop.index', {page: newPage}, {
-                    preserveState: true,
-                }));
+                this.$inertia.get(
+                    this.route('shop.index'),
+                    {
+                        page: newPage,
+                        search: this.searchTerm
+                    },
+                    {
+                        replace: true,
+                        preserveState: true,
+                    });
             }
+        }
+    },
+    methods: {
+        search() {
+            this.$inertia.get(
+                this.route('shop.index'),
+                {search: this.searchTerm},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                });
+            this.searchLoading = false;
         }
     },
     layout: [App]

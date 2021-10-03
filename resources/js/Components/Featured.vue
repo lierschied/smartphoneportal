@@ -35,7 +35,7 @@ export default {
     },
     mounted() {
         axios
-            .get(route('api.smartphone.getFeatured'))
+            .get(this.route('api.smartphone.getFeatured'))
             .then(response => (this.phones = response.data))
     },
     setup () {
